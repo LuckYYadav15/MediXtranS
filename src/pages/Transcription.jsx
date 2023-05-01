@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import query from "./queryTrans"; // assuming the file containing the function is named query.js
+import LoadingPage from "../components/Loading/loading";
 
 function MyComponent() {
   const [inputs, setInput] = useState("");
@@ -9,8 +10,10 @@ function MyComponent() {
   const [intext, setinText] = useState("");
   const [outext, setoutText] = useState([]);
   const [inputArray, setInputArray] = useState([]);
+  const [loading, setLoading] = useState(false); // added state for loading animation
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     setInputArray((prevInputArray) => [...prevInputArray, inputs]); // add the input value to the existing array of inputs
     const data = { inputs }; // assuming the API takes an object with an "input" field
@@ -19,6 +22,7 @@ function MyComponent() {
     for (let i = 0; i < result.length; i++) {
       console.log(result[i].word, result[i].score, result[i].entity_group);
     }
+    setLoading(false);
   };
 
   const handleTextSubmit = async (event) => {
@@ -32,11 +36,13 @@ function MyComponent() {
   };
 
   const handleFindOne = async () => {
+    setLoading(true); // show loading animation before fetch request
     try {
       const response = await axios.get("/text/get");
       const lastElement = response.data;
       setInput(lastElement.text_data);
       console.log(lastElement.text_data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -102,7 +108,10 @@ function MyComponent() {
       </p>
     </div>
   ));
-
+  if (loading) {
+    // show loading animation if loading state is true
+    return <LoadingPage />;
+  }
   return (
     <div style={{ display: "flex" }}>
       <div style={{ width: "50%", marginRight: "20px" }}>

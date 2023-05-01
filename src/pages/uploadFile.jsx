@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 import ChooseFile from "../components/Choose file/ChooseFile";
 import { Navigate } from "react-router-dom";
+import LoadingPage from "../components/Loading/loading";
 
 const UploadFile = () => {
   const [text, setText] = useState("");
   const [patientId, setPatientId] = useState("");
   const [resultData, setResultData] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false); // added state for loading animation
 
   const uploadEventHandler = async (event) => {
     event.preventDefault();
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
     const reader = new FileReader();
+
+    setLoading(true); // show loading animation before fetch request
 
     reader.onload = async (event) => {
       const fileData = event.target.result;
@@ -29,12 +33,17 @@ const UploadFile = () => {
       const result = await response.json();
       console.log(result);
       setResultData(result.text);
+      setLoading(false); // hide loading animation after fetch request
     };
 
     reader.readAsArrayBuffer(file);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setLoading(true); // show loading animation before fetch request
+
     fetch("/text/generate", {
       method: "POST",
       headers: {
@@ -46,14 +55,23 @@ const UploadFile = () => {
       .then((data) => {
         console.log(data);
         setSubmitted(true);
+        setLoading(false); // hide loading animation after fetch request
       })
       .catch((error) => {
         console.error("Error:", error);
+        setLoading(false); // hide loading animation after fetch request
       });
   };
+
+  if (loading) {
+    // show loading animation if loading state is true
+    return <LoadingPage />;
+  }
+
   if (submitted) {
     return <Navigate to="/trans" />;
   }
+
   return (
     <div style={{ gridRow: "auto" }}>
       <div

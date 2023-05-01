@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import LoadingPage from "../components/Loading/loading";
 
 const SpeechToText = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -7,6 +8,7 @@ const SpeechToText = () => {
   const [patientId, setPatientId] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const recognition = new window.webkitSpeechRecognition();
+  const [loading, setLoading] = useState(false); // added state for loading animation
 
   recognition.continuous = true;
   recognition.interimResults = true;
@@ -23,6 +25,7 @@ const SpeechToText = () => {
   };
 
   const handleSubmit = (e) => {
+    setLoading(true); // show loading animation before fetch request
     e.preventDefault();
     fetch("/text/generate", {
       method: "POST",
@@ -35,6 +38,7 @@ const SpeechToText = () => {
       .then((data) => {
         console.log(data);
         setSubmitted(true);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -63,6 +67,10 @@ const SpeechToText = () => {
 
   if (submitted) {
     return <Navigate to="/trans" />;
+  }
+  if (loading) {
+    // show loading animation if loading state is true
+    return <LoadingPage />;
   }
 
   return (
