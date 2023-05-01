@@ -21,7 +21,7 @@ function Register() {
     event.preventDefault();
     try {
       const { data } = await axios.post(
-        "https://medibackend.onrender.com/auth/register",
+        "/auth/register",
         {
           ...values,
         },

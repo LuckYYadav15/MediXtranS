@@ -24,7 +24,7 @@ const SpeechToText = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("https://medibackend.onrender.com/text/generate", {
+    fetch("/text/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

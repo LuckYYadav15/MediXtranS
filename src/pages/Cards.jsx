@@ -13,7 +13,7 @@ export default function Cards() {
         navigate("/login");
       } else {
         const { data } = await axios.post(
-          "https://medibackend.onrender.com/",
+          "/",
           {},
           {
             withCredentials: true,

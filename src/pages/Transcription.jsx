@@ -33,7 +33,7 @@ function MyComponent() {
 
   const handleFindOne = async () => {
     try {
-      const response = await axios.get("https://medibackend.onrender.com/text/get");
+      const response = await axios.get("/text/get");
       const lastElement = response.data;
       setInput(lastElement.text_data);
       console.log(lastElement.text_data);

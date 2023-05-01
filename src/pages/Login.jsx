@@ -22,7 +22,7 @@ function Login() {
     event.preventDefault();
     try {
       const { data } = await axios.post(
-        "https://medibackend.onrender.com/auth/login",
+        "/auth/login",
         {
           ...values,
         },
