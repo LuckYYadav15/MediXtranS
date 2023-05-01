@@ -2,7 +2,6 @@ import React from "react";
 import "./Home.css";
 import { Mic } from "react-bootstrap-icons";
 import Navbar from "../Navbar/Navbar";
-import ChooseFile from "../Choose file/ChooseFile";
 import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -11,6 +10,9 @@ export default function () {
   const someEventHandler = () => {
     navigate("/speech");
   };
+  const uploadEventHandler = () =>{
+    navigate("/uploadFile")
+  }
   return (
     <div className="Home">
       <Navbar />
@@ -29,10 +31,16 @@ export default function () {
               <h5>DICTATE AUDIO</h5>
             </button>
           </div>
-          <div className="button_2">
-            <ChooseFile />
+          <div className="button_1">
+            <button
+              onClick={uploadEventHandler}
+              className="button"
+              type="submit"
+              name="dictateAudio"
+            >
+              <p>upload File</p>
+            </button>
           </div>
-          
         </div>
       </div>
     </div>

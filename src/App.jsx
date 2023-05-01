@@ -1,12 +1,13 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home/Home";
-import SpeechToText from './pages/speechTotext'
+import SpeechToText from "./pages/speechTotext";
 import AboutUs from "./components/About Us/AboutUs";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Cards from "./pages/Cards";
 import Trans from "./pages/Transcription";
+import UploadFile from "./pages/uploadFile";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Cards />} />
       <Route path="/trans" element={<Trans />} />
+      <Route path="/uploadFile" element={<UploadFile />} />
       {/* <Route path="/register" element={<Register />} />
       <Route path="/profile/:username" element={<Profile />} />  */}
     </Route>
