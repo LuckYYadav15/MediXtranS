@@ -3,8 +3,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
+import LoadingPage from "../components/Loading/loading";
 function Register() {
   const [cookies] = useCookies(["cookie-name"]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (cookies.jwt) {
@@ -18,6 +20,7 @@ function Register() {
       position: "bottom-right",
     });
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     try {
       const { data } = await axios.post(
@@ -36,12 +39,17 @@ function Register() {
           navigate("/");
         }
       }
+      setLoading(false);
     } catch (ex) {
       console.log(ex);
     }
   };
+  if (loading) {
+    // show loading animation if loading state is true
+    return <LoadingPage />;
+  }
   return (
-    <div style={{ width: '400px' }} className="container">
+    <div style={{ width: "400px" }} className="container">
       <h2>Register Account</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>

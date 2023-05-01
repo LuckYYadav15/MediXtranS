@@ -3,9 +3,12 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
+import LoadingPage from "../components/Loading/loading";
+import { FastForward } from "react-bootstrap-icons";
 
 function Login() {
   const [cookies] = useCookies([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (cookies.jwt) {
@@ -19,6 +22,7 @@ function Login() {
       position: "bottom-right",
     });
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     try {
       const { data } = await axios.post(
@@ -37,12 +41,17 @@ function Login() {
           navigate("/home");
         }
       }
+      setLoading(false);
     } catch (ex) {
       console.log(ex);
     }
   };
+  if (loading) {
+    // show loading animation if loading state is true
+    return <LoadingPage />;
+  }
   return (
-    <div style={{ width: '400px' }} className="container">
+    <div style={{ width: "400px" }} className="container">
       <h2>Login to your Account</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
