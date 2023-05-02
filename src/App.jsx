@@ -9,6 +9,8 @@ import Cards from "./pages/Cards";
 import Trans from "./pages/Transcription";
 import UploadFile from "./pages/uploadFile";
 import "react-toastify/dist/ReactToastify.css";
+import SendMail from "./components/Mail/sendmail";
+import TextToPdf from "./components/Getpdf/getPdf";
 
 import {
   createBrowserRouter,
@@ -29,6 +31,8 @@ const router = createBrowserRouter(
       <Route path="/" element={<Cards />} />
       <Route path="/trans" element={<Trans />} />
       <Route path="/uploadFile" element={<UploadFile />} />
+      <Route path="/sendMail" element={<SendMail />} />
+      <Route path="/textPdf" element={<TextToPdf />} />
       {/* <Route path="/register" element={<Register />} />
       <Route path="/profile/:username" element={<Profile />} />  */}
     </Route>
