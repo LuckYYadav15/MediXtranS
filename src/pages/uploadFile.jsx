@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ChooseFile from "../components/Choose file/ChooseFile";
 import { Navigate } from "react-router-dom";
 import LoadingPage from "../components/Loading/loading";
+import NavBar from "../components/Navbar/Navbar";
 
 const UploadFile = () => {
   const [text, setText] = useState("");
@@ -74,33 +75,39 @@ const UploadFile = () => {
 
   return (
     <div style={{ gridRow: "auto" }}>
+      <NavBar />
       <div
-        style={{ marginBottom: "180px", marginRight: "550px" }}
+        style={{ marginBottom: "0px", marginLeft: "0px" }}
         className="button_2"
       >
-        <ChooseFile />
-        <button
-          style={{ width: "100px", height: "50px" }}
-          onClick={uploadEventHandler}
-          className="button"
-          type="submit"
-          name="dictateAudio"
-        >
-          Submit
-        </button>
+        <div style={{ padding: "20px", marginTop: "30px" }}>
+          <ChooseFile />
+        </div>
+        <div style={{ padding: "20px" }}>
+          <button
+            style={{ width: "150px", height: "50px" }}
+            onClick={uploadEventHandler}
+            className="button"
+            type="submit"
+            name="dictateAudio"
+          >
+            Generate Text
+          </button>
+        </div>
       </div>
       <form onSubmit={handleSubmit}>
         <textarea
           value={resultData}
           rows={10}
           cols={100}
+          placeholder="audio file will be converted to text here"
           onChange={(e) => setResultData(e.target.value)}
         />
         <div>
           <label htmlFor="patientId">Patient Id</label>
           <input
             type="text"
-            placeholder="patient id"
+            placeholder="enter patient id"
             name="patientId"
             value={patientId}
             onChange={(e) => setPatientId(e.target.value)}

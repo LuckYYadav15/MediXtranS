@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import LoadingPage from "../components/Loading/loading";
+import NavBar from "../components/Navbar/Navbar";
 
 const SpeechToText = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -75,7 +76,15 @@ const SpeechToText = () => {
 
   return (
     <div>
-      <div style={{ padding: "10px 10px", marginLeft: "40%", width: "60px" }}>
+      <NavBar />
+      <div
+        style={{
+          padding: "10px 10px",
+          marginLeft: "40%",
+          width: "60px",
+          color: "white",
+        }}
+      >
         <button onClick={isRecording ? handleStop : handleStart}>
           {isRecording ? "Stop" : "Start"}
         </button>
@@ -91,14 +100,19 @@ const SpeechToText = () => {
           <label htmlFor="patientId">Patient Id</label>
           <input
             type="text"
-            placeholder="patient id"
+            placeholder="enter patient id"
             name="patientId"
             value={patientId}
             onChange={(e) => setPatientId(e.target.value)}
           />
         </div>
         <button
-          style={{ padding: "10px 10px", width: "100px", marginLeft: "40%" }}
+          style={{
+            padding: "10px 10px",
+            width: "100px",
+            marginLeft: "40%",
+            color: "white",
+          }}
           type="submit"
         >
           Submit

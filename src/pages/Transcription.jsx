@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import query from "./queryTrans"; // assuming the file containing the function is named query.js
 import LoadingPage from "../components/Loading/loading";
+import NavBar from "../components/Navbar/Navbar";
 
 function MyComponent() {
   const [inputs, setInput] = useState("");
@@ -50,12 +51,12 @@ function MyComponent() {
   const getEntityColor = (entity_group) => {
     switch (entity_group) {
       case "Detailed_description":
-        return "red";
-      case "age":
-        return "yellow";
-      case "history":
-        return "blue";
-      case "nonbiological_location":
+        return "#EC4899";
+      case "Age":
+        return "#8B5CF6";
+      case "History":
+        return "orange";
+      case "Nonbiological_location":
         return "violet";
 
       case "Disease_disorder":
@@ -65,7 +66,7 @@ function MyComponent() {
         return "orange";
 
       case "Lab_value":
-        return "brown";
+        return "#0EA5E9";
 
       case "Distance":
         return "gray";
@@ -74,7 +75,7 @@ function MyComponent() {
         return "aqua";
 
       case "Sign_symptom":
-        return "Brown";
+        return "#6366F1";
 
       case "Biological_structure":
         return "lime";
@@ -82,8 +83,13 @@ function MyComponent() {
       case "Frequency":
         return "Maroon";
 
+      case "Sex":
+        return "green";
+
+      case "Therapeutic_procedure":
+        return "olive";
       default:
-        return "black";
+        return "yellow";
     }
   };
 
@@ -91,15 +97,15 @@ function MyComponent() {
     const highlightedText = [];
     let lastIndex = 0;
     console.log(result.length);
-    console.log(inputs)
+    console.log(inputs);
     for (let i = 0; i < result.length; i++) {
       const { start, end, score, entity_group } = result[i];
       console.log(result[i]);
       const color = getEntityColor(entity_group);
       const textChunk = inputs.substring(lastIndex, start);
-      console.log(textChunk)
+      console.log(textChunk);
       const entityChunk = inputs.substring(start, end);
-      console.log(entityChunk)
+      console.log(entityChunk);
       if (textChunk) {
         highlightedText.push(<span key={lastIndex}>{textChunk}</span>);
       }
@@ -134,80 +140,22 @@ function MyComponent() {
     );
   });
 
-  // const outputList = output.map((result, index) => (
-  //   <div key={index}>
-  //     <p>
-  //       {result.map(({ word, score, entity_group }) => {
-  //         let color = "black";
-  //         switch (entity_group) {
-  //           case "Detailed_description":
-  //             color = "red";
-  //             break;
-  //           case "age":
-  //             color = "yellow";
-  //             break;
-  //           case "history":
-  //             color = "blue";
-  //             break;
-  //           case "nonbiological_location":
-  //             color = "violet";
-  //             break;
-  //           case "Disease_disorder":
-  //             color = "green";
-  //             break;
-  //           case "Diagnostic_procedure":
-  //             color = "orange";
-  //             break;
-  //           case "Lab_value":
-  //             color = "brown";
-  //             break;
-  //           case "Distance":
-  //             color = "gray";
-  //             break;
-  //           case "Clinical_event":
-  //             color = "aqua";
-  //             break;
-  //           case "Sign_symptom":
-  //             color = "Brown";
-  //             break;
-  //           case "Biological_structure":
-  //             color = "lime";
-  //             break;
-  //           case "Frequency":
-  //             color = "Maroon";
-  //             break;
-  //           default:
-  //             color = "black";
-  //         }
-  //         return (
-  //           <span
-  //             key={word}
-  //             style={{
-  //               color: score >= 0.5 ? color : color,
-  //               fontSize: score >= 0.5 && entity_group ? "80%" : "100%",
-  //             }}
-  //           >
-  //             {word} {score >= 0.5 && entity_group ? `(${entity_group})` : null}
-  //           </span>
-  //         );
-  //       })}
-  //     </p>
-  //   </div>
-  // ));
-
   if (loading) {
     // show loading animation if loading state is true
     return <LoadingPage />;
   }
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", marginLeft: "20px" }}>
+      <NavBar />
       <div style={{ width: "50%", marginRight: "20px" }}>
-        <button
-          style={{ marginBottom: "50px", alignItems: "center" }}
-          onClick={handleFindOne}
-        >
-          Get Data
-        </button>
+        <div style={{ color: "white" }}>
+          <button
+            style={{ marginBottom: "50px", alignItems: "center" }}
+            onClick={handleFindOne}
+          >
+            Get Data
+          </button>
+        </div>
         <form onSubmit={handleSubmit}>
           <textarea
             style={{ alignItems: "center" }}
@@ -217,12 +165,21 @@ function MyComponent() {
             value={inputs}
             onChange={(e) => setInput(e.target.value)}
           />
-          <button style={{ alignItems: "center" }} type="submit">
-            Compute
-          </button>
+          <div style={{ color: "white" }}>
+            <button style={{ alignItems: "center" }} type="submit">
+              Compute
+            </button>
+          </div>
         </form>
       </div>
-      <div style={{ width: "50%" }}>
+      <div
+        style={{
+          width: "50%",
+          marginRight: "30px",
+          fontSize: "300px",
+          textAlign: "justify",
+        }}
+      >
         {outputList}
       </div>
     </div>

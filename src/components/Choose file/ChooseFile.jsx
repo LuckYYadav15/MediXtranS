@@ -1,5 +1,5 @@
-import React from 'react';
-import './ChooseFile.css'
+import React from "react";
+import "./ChooseFile.css";
 
 function FileInputComponent(props) {
   const handleFileChange = (event) => {
@@ -10,7 +10,15 @@ function FileInputComponent(props) {
   return (
     <div>
       {/* <label htmlFor="file_input">Choose a file:</label> */}
-      <button className='fileInput'><input type="file" style={{width:"350px"}} accept="audio/*" id="fileInput" onChange={handleFileChange} /></button>
+      <button className="fileInput">
+        <input
+          type="file"
+          style={{ width: "350px" }}
+          accept="audio/*"
+          id="fileInput"
+          onChange={handleFileChange}
+        />
+      </button>
     </div>
   );
 }
