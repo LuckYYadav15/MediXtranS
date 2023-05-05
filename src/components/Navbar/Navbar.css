@@ -1,13 +1,24 @@
-#navbar{
-    height: 60px !important;
+nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #d8d8d7;
+  /* padding: 10px; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-weight: 1000;
 }
-#basic-navbar-nav{
-    justify-content:right !important;
+
+.navbar-items {
+  margin-left: auto;
+  margin-right: 30px;
 }
-.me-auto{
-    min-width: 100%;
-    justify-content: right;
-}
-.navBtn{
-    margin: 0 15px;
+
+.navbar-items button {
+  background-color: transparent;
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
 }
