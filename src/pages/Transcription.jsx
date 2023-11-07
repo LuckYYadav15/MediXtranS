@@ -3,10 +3,15 @@ import axios from "axios"; // Import Axios library
 import { audit, vector_down, vector_send } from "../assets";
 import { Footer, Navbar } from "../components";
 import { PDFDocument, rgb } from "pdf-lib";
+import { useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
+
 export default function Transcription() {
+  const [transResult, setTransResult] = useState([]);
   const targetRef = useRef(null);
+  const navigate = useNavigate();
+  // const [transResult, setTransResult] = useState("");
 
   const [inputs, setInput] = useState("");
   const [output, setOutput] = useState([]);
@@ -49,10 +54,30 @@ export default function Transcription() {
 
         setInputArray((prevInputArray) => [...prevInputArray, inputs]);
         const result = await postResponse.json();
-        // console.log("api hit request");
-        // console.log(result);
+        console.log("api hit request");
+        console.log(result);
+        // transResult = result;
+        // console.log(transResult);
         setOutput((prevOutput) => [result]);
         for (let i = 0; i < result.length; i++) {
+          const { word, entity_group } = result[i];
+          console.log(entity_group);
+          if(entity_group === "Age") {
+            localStorage.setItem("medixTransGenerateFormAge",word);
+          }
+          if(entity_group == "Sex"){
+            localStorage.setItem("medixTransGenerateFormSex",word);
+          }
+          if(entity_group == "Biological_structure"){
+            localStorage.setItem("medixTransGenerateFormBS",word);
+          }
+          if(entity_group == "Clinical_event"){
+            localStorage.setItem("medixTransGenerateFormCE",word);
+          }
+          if(entity_group == "Sign_symptom"){
+            localStorage.setItem("medixTransGenerateFormSS",word);
+          }
+          
           // console.log(result[i].word, result[i].score, result[i].entity_group);
         }
       } catch (error) {
@@ -62,6 +87,32 @@ export default function Transcription() {
 
     fetchData();
   }, []);
+  console.log(transResult);
+
+  
+
+  const handleGenerateFormClick = async() => {
+    // console.log(transResult[0].entity_group);
+
+    // await fun();
+    // for(let i=0; i<transResult.length; i++) {
+    //   const { start, end, score, entity_group } = result[i];
+    //   console.log(entity_group)
+    //   // console.log(transResult[i].entity_group)
+    //   // if(transResult[i].entity_group == "Age") {
+    //   //   localStorage.setItem("medixTransGenerateFormAge",transResult[i].word);
+    //   // }
+    //   // else if(transResult[i].entity_group === "Disease_disorder") {
+    //   //   localStorage.setItem("medixTransGenerateFormDisease_disorder",transResult[i].word);
+    //   // }
+    // }
+    // localStorage.setItem("medixTransGenerateForm",transResult[0].entity_group);
+    // localStorage.setItem("medixTransGenerateForm",transResult[0].);
+    // localStorage.setItem("medixTransGenerateForm",transResult[0]);
+    // localStorage.setItem("medixTransGenerateForm",transResult[0]);
+    // localStorage.setItem("medixTransGenerateForm",transResult[0]);
+    navigate("/generateForm", { state: { resultData: transResult } });
+  };
 
   const getEntityColor = (entity_group) => {
     const colors = {
@@ -368,10 +419,10 @@ export default function Transcription() {
         </button>
         <button
           className="w-[197px] h-[44px] shrink-0 justify-center mt-2 sm:mt-0 rounded-[6px] bg-white text-[#6A6868] sm:ml-[45px] border-2 border-[#6A6868]"
-          type="submit"
+          onClick={handleGenerateFormClick}
         >
           <p className="font-[Roboto] font-[700] flex flex-row justify-evenly items-center">
-            <div>Send pdf</div>
+            <div>Generate Form</div>
             <div>
               <img src={vector_send} alt="" />
             </div>

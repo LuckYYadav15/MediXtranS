@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   vector_right,
   mediXtransFlow1,
@@ -6,26 +8,88 @@ import {
   Os_upgrade_2,
 } from "../assets";
 import { Footer, Navbar } from "../components";
-import { useNavigate } from 'react-router-dom';
+import { server } from "../App";
 
 export default function Upload() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [text, setText] = useState("");
+  const [result, setResult] = useState(null); 
+  const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   // useEffect to handle result changes and trigger handleSubmit
+  //   if (result) {
+  //     handleSubmit();
+  //   }
+  // }, [result]);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+  
+  const uploadEventHandler = async (event) => {
+    event.preventDefault();
+    const file = selectedFile;
+    const reader = new FileReader();
 
-  const handleTranscription = () => {
-    if(selectedFile===null){
-      console.log("Please upload a file");
-      alert("Please upload a file");
-    }
-    else{
-      console.log(" upload a file");
+    reader.onload = async (event) => {
+      const fileData = event.target.result;
+      const response = await fetch(
+        "https://api-inference.huggingface.co/models/rakesh-ai/whisper-small-en",
+        {
+          headers: { Authorization: "Bearer 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" },
+          method: "POST",
+          body: fileData,
+        });
+      
+      const resultData = await response.json();
+      // console.log("Result from Upload function: " + result.text);
+      // console.log(result);
+      setText(resultData.text);
+      setResult(resultData.text);
+      // console.log(result);
+    };
+    reader.readAsArrayBuffer(file);
+  };
+
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
+    console.log(result);
+    try {
+      const data = await axios.post(
+        `${server}/api/text/generate`,
+        // `${server}/Text_API/post_api_generateText`,
+        {
+          patientid: 2,
+          text_data: result,
+        },
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
+          // withCredentials: true,
+        }
+      );
+      console.log("data send successfully");
+      // console.log(patientid + "  " + text);
+      setSubmitted(true);
       navigate("../transcription");
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  // const handleTranscription = () => {
+  //   if(selectedFile===null){
+  //     console.log("Please upload a file");
+  //     alert("Please upload a file");
+  //   }
+  //   else{
+  //     console.log(" upload a file");
+  //     navigate("../transcription");
+  //   }
+  // };
 
   return (
     <div className="overflow-hidden">
@@ -52,19 +116,37 @@ export default function Upload() {
                   onChange={handleFileChange}
                 />
               </button>
+              <button
+                className="w-[197px] h-[44px] shrink-0 justify-center mt-2 sm:mt-0 ml-10 rounded-[6px] bg-white text-[#6A6868] md:ml-[200px] border-2 border-[#6A6868]"
+                type="submit"
+                onClick={uploadEventHandler}
+              >
+                Generate Text
+              </button>
             </div>
-            <div className="flex-1 mt-12 justify-between items-around text-[22px] font-[Roboto] font-[700] flex flex-col sm:flex-row sm:justify-start">
+
+            <div className="flex-[5] hover:border-white border-2 w-auto h-auto flex justify-center lg: mt-[10px] w-[680px] lg:h-[651px] shrink-0 shadow-md p-3 md:mt-[10px] text-[19px] font-[Roboto] font-[300]">
+              <textarea
+                value={text}
+                rows={10}
+                cols={100}
+                placeholder="audio file will be converted to text here"
+                onChange={(e) => setText(e.target.value)}
+              />
+            </div>
+
+            <div className="flex-1 mt-5 justify-between items-around text-[22px] font-[Roboto] font-[700] flex flex-col sm:flex-row sm:justify-start">
               <button
                 className="w-[197px] h-[44px] shrink-0 justify-center sm:mt-0 rounded-[6px] bg-white text-[#6A6868] border-2 border-[#6A6868]"
                 type="submit"
-                onClick={handleTranscription}
+                onClick={handleSubmit} 
               >
-                <p className="font-[Roboto] font-[700] flex flex-row justify-evenly items-center">
-                  <div >Transcribe</div>
+                <span className="font-[Roboto] font-[700] flex flex-row justify-evenly items-center">
+                  <div>Transcribe</div>
                   <div>
                     <img src={vector_right} alt="" />
                   </div>
-                </p>
+                </span>
               </button>
             </div>
           </div>

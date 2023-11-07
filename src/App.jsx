@@ -1,5 +1,5 @@
 import {Navbar} from "./components";
-import {Login,Register,Upload,Transcription,Record, Home, LandingPage} from "./pages";
+import {Login,Register,Upload,Transcription,Record, Home, LandingPage, GenerateForm} from "./pages";
 import "./App.css";
 
 import {
@@ -21,6 +21,7 @@ const router = createBrowserRouter(
     <Route path="/transcription" element={<Transcription />} />,
     <Route path="/home" element={<Home />} />,
     <Route path="/" element={<LandingPage />} />,
+    <Route path = "/generateForm" element={<GenerateForm/>}/>,
   ])
 );
 function App() {
