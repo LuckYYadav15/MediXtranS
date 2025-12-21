@@ -84,9 +84,9 @@ const App: React.FC = () => {
             <a href="#methodology" onClick={scrollToSection('methodology')} className="hover:text-tech-primary transition-colors">Methodology</a>
             <a href="#results" onClick={scrollToSection('results')} className="hover:text-tech-primary transition-colors">Results</a>
             <a href="#authors" onClick={scrollToSection('authors')} className="hover:text-tech-primary transition-colors">Authors</a>
-            <button className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-tech-primary transition-colors shadow-sm text-xs font-bold uppercase tracking-wide">
+            <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10912421&isnumber=10912084" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-tech-primary transition-colors shadow-sm text-xs font-bold uppercase tracking-wide">
               <Download size={14} /> Paper
-            </button>
+            </a>
           </div>
 
           <button className="md:hidden text-slate-900" onClick={() => setMenuOpen(!menuOpen)}>
@@ -138,9 +138,9 @@ const App: React.FC = () => {
                <button onClick={scrollToSection('abstract')} className="px-6 py-3 bg-tech-primary hover:bg-blue-600 text-white font-bold rounded-lg flex items-center gap-2 transition-all shadow-[0_0_20px_rgba(0,98,155,0.4)]">
                   Explore Research <ArrowDown size={18} />
                </button>
-               <button className="px-6 py-3 bg-slate-800/80 hover:bg-slate-700/80 backdrop-blur-md text-slate-200 font-bold rounded-lg flex items-center gap-2 border border-slate-600 transition-all">
+               <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10912421&isnumber=10912084" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-slate-800/80 hover:bg-slate-700/80 backdrop-blur-md text-slate-200 font-bold rounded-lg flex items-center gap-2 border border-slate-600 transition-all">
                   <Share2 size={18} /> Cite
-               </button>
+               </a>
             </div>
           </div>
         </div>
